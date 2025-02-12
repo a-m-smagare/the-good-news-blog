@@ -28,8 +28,9 @@ To get this project up and running on your local machine, follow these steps:
 2. Install dependencies:
    npm install
 3. Set up envorinmental variables:
-   Create a .env file in the root directory and add your API key: API_KEY=your_api_key_here
-4. Run the project:
+   Create a .env file in the root directory and add your API key:
+   API_KEY=your_api_key_here
+5. Run the project:
    npm start
    The frontend will be served at http://localhost:3000, and the backend API runs at http://localhost:4000.
 
