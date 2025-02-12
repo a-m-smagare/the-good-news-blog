@@ -23,7 +23,7 @@ The Good News Blog is a full-stack web application where I focused on building a
 To get this project up and running on your local machine, follow these steps:
 1. Clone the repository:
    ```bash
-   git clone https://github.com/a-m-smagare/good-news-blog.git
+   git clone https://github.com/a-m-smagare/the-good-news-blog.git
    cd good-news-blog
 2. Install dependencies:
    npm install
