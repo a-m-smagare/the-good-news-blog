@@ -4,8 +4,6 @@ A simple blog platform with an authentication system. The blog allows users to v
 ## Project Description
 The Good News Blog is a full-stack web application where I focused on building and securing backend services that interact with my own internal API. The frontend template was provided by my instructor, allowing me to focus on developing the backend logic and security features. The application enables secure editing and deletion of blog posts through API key authentication, which ensures that only authorized users can perform these actions. By designing the backend from scratch and implementing robust security measures, I demonstrated my ability to create, manage, and secure APIs in a real-world context.
 
-## Demo
-
 ## Features
 - **Add New Post**: Create new posts via a simple form.
 - **Edit Post**: Edit existing posts when the correct API key is provided.
