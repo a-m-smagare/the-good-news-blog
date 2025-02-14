@@ -1,9 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 
-const app = express();
-const port = 4000;
 dotenv.config();
+const router = express.Router();
 console.log("API_KEY from .env:", process.env.API_KEY);
 
 let posts = [
@@ -38,17 +37,14 @@ let posts = [
 
 let lastId = 3;
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+router.use(express.json());
 
-const API_KEY = process.env.API_KEY; 
-
-app.get("/posts", (req, res) => {
+router.get("/posts", (req, res) => {
   res.json(posts);
 });
 
 // Get specific post
-app.get("/posts/:id", (req, res) => {
+router.get("/posts/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const foundPost = posts.find((post) => post.id === id);
   if (!foundPost) return res.status(404).json({ message: "Post not found" });
@@ -56,7 +52,7 @@ app.get("/posts/:id", (req, res) => {
 });
 
 // New post
-app.post("/posts", (req, res) => {
+router.post("/posts", (req, res) => {
   const newId = ++lastId;
   const post = {
     id: newId,
@@ -71,7 +67,7 @@ app.post("/posts", (req, res) => {
 });
 
 
-app.patch("/posts/:id", (req, res) => {
+rputer.patch("/posts/:id", (req, res) => {
   const post = posts.find((post) => post.id === parseInt(req.params.id));
   if (!post) return res.status(404).json({ message: "Post not found" });
 
@@ -83,7 +79,7 @@ app.patch("/posts/:id", (req, res) => {
   res.json(post);
 });
 
-app.delete("/posts/:id", (req, res) => {
+router.delete("/posts/:id", (req, res) => {
   // to delete an object one needs the position=index
   const index = posts.findIndex((p) => p.id === parseInt(req.params.id));
   if (index === -1) return res.status(404).json({ message: "Post not found" });
@@ -92,6 +88,4 @@ app.delete("/posts/:id", (req, res) => {
   res.json({ message: "Post deleted" });
 });
 
-app.listen(port, () => {
-  console.log(`API is running at http://localhost:${port}`);
-});
+export default router;
