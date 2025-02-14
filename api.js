@@ -67,7 +67,7 @@ router.post("/posts", (req, res) => {
 });
 
 
-rputer.patch("/posts/:id", (req, res) => {
+router.patch("/posts/:id", (req, res) => {
   const post = posts.find((post) => post.id === parseInt(req.params.id));
   if (!post) return res.status(404).json({ message: "Post not found" });
 
