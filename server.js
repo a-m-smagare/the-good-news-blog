@@ -1,17 +1,17 @@
 import express from "express";
 import axios from "axios";
 import dotenv from "dotenv";
+import apiRoutes from "./api.js";
 
 dotenv.config();
 
 const app = express();
-const port = 3000;
-const API_URL = "http://localhost:4000";
+const port = process.env.PORT || 3000;
+const BASE_URL = process.env.BASE_URL || `http://localhost:${port}`;
 const apiKeyENV = process.env.API_KEY;
 console.log("API-KEY:", apiKeyENV);
 
 app.use(express.static("public"));
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -24,10 +24,12 @@ const verifyApiKey = (req, res, next) => {
   next();
 };
 
+app.use("/api", apiRoutes);
+
 // Route to render the main page
 app.get("/", async (req, res) => {
   try {
-    const response = await axios.get(`${API_URL}/posts`);
+    const response = await axios.get(`${BASE_URL}/api/posts`);
     console.log(response);
     res.render("index.ejs", { posts: response.data });
   } catch (error) {
@@ -43,7 +45,7 @@ app.get("/new", (req, res) => {
 // Get to edit page
 app.get("/edit/:id", verifyApiKey, async (req, res) => {
   try {
-    const response = await axios.get(`${API_URL}/posts/${req.params.id}`);
+    const response = await axios.get(`${BASE_URL}/api/posts/${req.params.id}`);
     res.render("modify.ejs", {
       heading: "Edit Post",
       submit: "Update Post",
@@ -57,7 +59,7 @@ app.get("/edit/:id", verifyApiKey, async (req, res) => {
 // Create a new post
 app.post("/api/posts", async (req, res) => {
   try {
-    const response = await axios.post(`${API_URL}/posts`, req.body);
+    const response = await axios.post(`${BASE_URL}/api/posts`, req.body);
     console.log(response.data);
     res.redirect("/");
   } catch (error) {
@@ -68,7 +70,7 @@ app.post("/api/posts", async (req, res) => {
 // To update post
 app.post("/api/posts/:id", async (req, res) => {
   try {
-    const response = await axios.patch(`${API_URL}/posts/${req.params.id}`, req.body);
+    const response = await axios.patch(`${BASE_URL}/api/posts/${req.params.id}`, req.body);
     res.redirect("/");
   } catch (error) {
     res.status(500).json({ message: "Error updating post" });
@@ -82,7 +84,7 @@ app.delete("/api/posts/delete/:id", async (req, res) => {
     return res.status(403).json({ message: "Forbidden: Invalid API key" });
   }
   try {
-    await axios.delete(`${API_URL}/posts/${req.params.id}`, {
+    await axios.delete(`${BASE_URL}/api/posts/${req.params.id}`, {
       headers: { "x-api-key": apiKeyENV }
     });
     res.json({ message: "Post deleted" });
